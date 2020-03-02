@@ -14,6 +14,9 @@ cd
 npm install
 ```
 
+## Functions
+Deploy each of the 4 functions to Twilio Functions
+
 ## Development
 
 In order to develop locally, you can use the Webpack Dev Server by running:
