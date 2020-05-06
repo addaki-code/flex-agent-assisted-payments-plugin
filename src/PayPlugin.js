@@ -23,12 +23,15 @@ export default class PayPlugin extends FlexPlugin {
     this.registerReducers(manager);
 
     loadCSS("https://lava-guanaco-9004.twil.io/assets/theme.min.css");
+    
 
     const options = { sortOrder: -1 };
     flex.AgentDesktopView
       .Panel2
       .Content
       .replace(<PaymentAgentView key="payment-component" />, options);
+
+    
   }
 
   /**
