@@ -1,6 +1,8 @@
 import React from 'react';
-import { withTaskContext, ThemeColorsDefinitionCreator } from '@twilio/flex-ui';
+import { withTaskContext, Tab } from '@twilio/flex-ui';
 import { SyncClient } from 'twilio-sync';
+import  PaymentForm from './PaymentForm'
+import PaymentInProgress from './PaymentInProgress';
 
 
 // It is recommended to keep components stateless and use redux for managing states
@@ -16,41 +18,11 @@ class PaymentAgentView extends React.Component {
             captureField: undefined,
             paymentMethod: 'credit-card',
             isDisplayed: false,
-            showPaymentForm: false,
-            paymentAmount: 10,
-            taskAttributes: {
-                screenPopTitle: 'Testing Auto Generated Interface',
-                screenPopSubtitle: 'Testing Auto Generated Subtitle',
-                screenPopFields: [
-                    {
-                        key: "Customer Name",
-                        value: "Jonathan Field"
-                    },
-                    {
-                        key: "Loyalty Level",
-                        value: "Diamond Member"
-                    },
-                    {
-                        key: 'Member Since',
-                        value: '12-Jan-2005'
-                    }
-                ],
-                screenPopTable: {
-                    title: 'Active Incidents',
-                    columns: ['Incident','Description','Priority','Configuration Item','Creation Date'],
-                    rows: 
-                    [
-                        { values: ['INC1231', 'It has all gone wrong!','1','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1232', 'It has all gone wrong!','2','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1233', 'It has all gone wrong!','3','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1234', 'It has all gone wrong!','4','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1235', 'It has all gone wrong!','5','CMBD_22','12-Jan-2020'] }
-                    ]
-                }
-            }
+            paymentAmount: 10  
         };
 
         window.Twilio.Flex.Actions.addListener("afterAcceptTask", (payload) => {
+            //props.resetPay();
             this.setState(
                 {   paymentSid: null, 
                     aapStatus: [], 
@@ -61,13 +33,28 @@ class PaymentAgentView extends React.Component {
                 });
         });
 
-        this.paymentAmountRef = React.createRef();
+        window.Twilio.Flex.Actions.addListener("afterCompleteTask", (payload) => {
+            this.setState(
+                {   paymentSid: null, 
+                    aapStatus: [], 
+                    captureField: undefined, 
+                    paymentMethod: 'credit-card', 
+                    isDisplayed: false, 
+                    showPaymentForm: false
+                });
+        });
 
 
-        window.Twilio.Flex.CallCanvasActions.Content.add(<button onClick={this.showPaymentForm} className='Twilio-IconButton Twilio-CallCanvas-Dialpad css-w77p7x' key="pay-btn">PAY</button>);
+
+        window.Twilio.Flex.CallCanvasActions.Content.add(<button onClick={this.displayPaymentForm} className='Twilio-IconButton Twilio-CallCanvas-Dialpad css-w77p7x' key="pay-btn">PAY</button>, { sortOrder: -1 });
+        
     }
 
+    displayPaymentForm = () => {
+        this.setState({ showPaymentForm: true });
+    }
 
+    
 
     addEventToState = (newItem) => {
         this.setState({ aapStatus: [...this.state.aapStatus, newItem]} );
@@ -98,7 +85,11 @@ class PaymentAgentView extends React.Component {
           list.on('itemAdded', (event) => {
             console.log('Received itemAdded event: ', event);
             this.addEventToState(event.item.data.value);
-        });
+            })
+        
+        })
+        .then(subscribed => {
+            this.requestCapture('payment-card-number')
         })
         .catch(function(error) {
           console.log('Unexpected error', error);
@@ -109,21 +100,18 @@ class PaymentAgentView extends React.Component {
         this.setState({ showPaymentForm: true });
     }
 
-    initiateAAP = () => {
-        console.log("Initiating Payment for Call Sid: " + this.props.task.attributes.call_sid);
-
-        var options = { method: 'POST' };
-
-        fetch(this.state.runtimeUrl + "/sync-token", options)
+    initiateAAP = (currency, chargeAmount) => {
+        console.log(this.props.task.attributes);
+        console.log("Initiating Payment for Call Sid: " + this.props.task.attributes.conference.participants.customer);
+        fetch(this.state.runtimeUrl + "/sync-token", { method: 'POST' })
             .then(token => {
                 token.json().then(json => {
-                    console.log("Token: " + json.token);  
-
                     // Now post to Begin Session
                     var body = {
                         Token: this.state.token,
                         CallSid: this.props.task.attributes.call_sid,
-                        ChargeAmount: this.paymentAmountRef.current.value
+                        ChargeAmount: chargeAmount,
+                        Currency: currency,
                     }
             
                     var options = {
@@ -135,19 +123,17 @@ class PaymentAgentView extends React.Component {
                     };
             
                     fetch(this.state.runtimeUrl + "/aap-begin-pay-session", options)
-                    .then(success => {
-                        console.log("Initiated AAP");
-                        success.json().then(response => {
-                            console.log(response);
-                            this.setState({ paymentSid: response.sid, isDisplayed: true, showPaymentForm: false });
-                            this.subscribeToSync(json.token);
-
-                        })    
-                    }).catch(err => {
-                        console.error("Failed to initiate AAP");
-                    });
-
-
+                        .then(success => {
+                            console.log("Initiated AAP");
+                            success.json().then(response => {
+                                console.log(response);
+                                this.setState({ paymentSid: response.sid, isDisplayed: true, showPaymentForm: false });
+                                this.subscribeToSync(json.token);                       
+                            })    
+                        })
+                        .catch(err => {
+                            console.error("Failed to initiate AAP");
+                        });
                 });
             })
             .catch(error => {
@@ -178,7 +164,7 @@ class PaymentAgentView extends React.Component {
 
         fetch(this.state.runtimeUrl + "/aap-capture-parameter", options)
         .then(success => {
-            this.setState({stage: captureField});
+            this.setState({captureField: captureField});
             console.log("PAN Requested");
             console.log(success)
         }).catch(err => {
@@ -220,78 +206,6 @@ class PaymentAgentView extends React.Component {
     }
 
 
-    // TODO: Move to subcomponent
-    renderInput = (friendlyName, pascalCaseName, riverCaseName) => {
-        
-        var paymentState = this.latestPaymentState();
-
-        return (
-        <div>
-        
-            <span className='Twilio'>{friendlyName}</span>
-            <div>{ paymentState[pascalCaseName] }</div>
-            <button 
-                className="btn btn-sm btn-primary lift" 
-                type="button" 
-                onClick={() => this.requestCapture(riverCaseName)}
-                >Request Capture</button> 
-        </div>);
-    }
-
-
-
-    /*
-    screenPopTable: {
-                    title: 'Active Incidents',
-                    columns: ['Incident','Description','Priority','Configuration Item','Creation Date'],
-                    rows: 
-                    [
-                        { values: ['INC1231', 'It has all gone wrong!','1','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1232', 'It has all gone wrong!','2','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1233', 'It has all gone wrong!','3','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1234', 'It has all gone wrong!','4','CMBD_22','12-Jan-2020'] },
-                        { values: ['INC1235', 'It has all gone wrong!','5','CMBD_22','12-Jan-2020'] }
-                    ]
-                }
-    
-    */
-    renderAutoScreenPop = () => {
-        return (
-            <>
-                <h1>{this.state.taskAttributes.screenPopTitle}</h1>
-                <h2>{this.state.taskAttributes.screenPopSubtitle}</h2>
-                <hr />
-                <table class='table'>
-                    { this.state.taskAttributes.screenPopFields.map((fields) => {
-                        return (<tr><th><strong>{fields.key}</strong></th><td>{fields.value}</td></tr>)
-                    }) 
-                    }
-                </table>
-                { this.state.taskAttributes.screenPopTable !== undefined && (
-                    <>
-                        <hr />
-                        <h3>{ this.state.taskAttributes.screenPopTable.title }</h3>
-                        <table class='table'>
-                            <tr>
-                                {this.state.taskAttributes.screenPopTable.columns.map((column) => {
-                                    return (<th>{column}</th>)
-                                })}
-                            </tr>
-                            {
-                                    this.state.taskAttributes.screenPopTable.rows.map((row) => {
-                                        return (<tr>
-                                            { row.values.map((col) => {
-                                                return <td>{col}</td>
-                                            }) }
-                                        </tr>)
-                                    })
-                                }
-                        </table>
-                    </>
-                )}
-            </>
-        );
-    }
 
     render() {
         const { task } = this.props;
@@ -300,79 +214,31 @@ class PaymentAgentView extends React.Component {
             return null;
         }
 
-        console.log("Attributes:");
-        console.log(task.attributes);
-        
         var paymentState = this.latestPaymentState();
-
-        if(this.state.showPaymentForm){
-            return(
-                <>
-                    <div style={{padding:'5px'}}>
-                        <h1 class="Twilio Twilio-TaskCanvasHeader css-cx2jmb">Request Payment via Telephone</h1>
-                        £<input ref={this.paymentAmountRef} defaultValue={this.state.paymentAmount}/>
-                        
-                        <button className="Twilio-Button Twilio-TaskCanvasHeader-EndButton css-gm15qx" onClick={this.initiateAAP}>Request Payment</button>
-                    </div>
-                </>
-            );            
-        }
 
         return (
             <div>
-                { this.renderAutoScreenPop() }
+                <PaymentForm isDisplayed={this.state.showPaymentForm} initiateAAP={this.initiateAAP}/>
                 {
                     paymentState != null && (
                         <>
-                            <pre>{ JSON.stringify(paymentState, undefined, 2) }</pre>
-
                             { this.state.paymentMethod == 'credit-card' && 
-                                (
-                                    <div style={{padding:'5px'}}>
-                                    <h1 className="Twilio Twilio-TaskCanvasHeader css-cx2jmb">Credit Card Payment</h1>
+                                <>
+                                    <PaymentInProgress 
+                                        captureField={this.state.captureField} 
+                                        paymentState={paymentState} 
+                                        requestCapture={this.requestCapture} 
+                                        processPayment={this.processPayment} />
                                         
-                                        { (paymentState.Result === undefined || paymentState.Result != 'success') && (
-                                            <>
-                                            { this.renderInput("Payment Card Number", "PaymentCardNumber", "payment-card-number") }
-                                            { this.renderInput("Expiration Date", "ExpirationDate", "expiration-date") }
-                                            { this.renderInput("Security Code", "SecurityCode", "security-code") }
-
-                                            { paymentState.Required !== undefined && 
-                                                <button 
-                                                    disabled={paymentState.Required !== ""} 
-                                                    className="btn btn-sm btn-primary lift" 
-                                                    type="button" 
-                                                    onClick={() => this.processPayment()}>Process Payment</button>
-                                            }
-                                            </>
-                                        )}
-
-{
-                                          paymentState.Result != undefined && paymentState.Result == 'success' &&
-                                                <div className="card">
-                                                        <div className="card-body">
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                <label>Confirmation Code</label>
-                                                            </div>
-                                                        </div>
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                <div className="form-group">
-                                                                    <input type="text" className="form-control" readonly="readonly" defaultValue={ paymentState.PaymentConfirmationCode } />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        }
-                                        
-                                    </div>
-                                )
+                                    {
+                                        paymentState.Result != undefined && paymentState.Result == 'success' &&
+                                            <div style={{padding:'12px', backgroundColor: 'white', borderBottom:'1px solid rgb(198, 202, 215)', borderLeft:'1px solid rgb(198, 202, 215)'}}>
+                                                <h1 class="Twilio">Payment Confirmation Code</h1>
+                                                <p>{ paymentState.PaymentConfirmationCode }</p>
+                                            </div>  
+                                    }
+                                 </>       
                             }
-
-
-
                         </>
                     )
                 }

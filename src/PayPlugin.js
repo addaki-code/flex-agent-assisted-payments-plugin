@@ -1,9 +1,8 @@
 import React from 'react';
-import { VERSION } from '@twilio/flex-ui';
+import { VERSION, Tab } from '@twilio/flex-ui';
 import { FlexPlugin, loadCSS } from 'flex-plugin';
 
 import PaymentAgentView from './components/PaymentAgentView/PaymentAgentView';
-import reducers, { namespace } from './states';
 
 const PLUGIN_NAME = 'PayPlugin';
 
@@ -22,7 +21,7 @@ export default class PayPlugin extends FlexPlugin {
   init(flex, manager) {
     this.registerReducers(manager);
 
-    loadCSS("https://lava-guanaco-9004.twil.io/assets/theme.min.css");
+    //loadCSS("https://lava-guanaco-9004.twil.io/assets/theme.min.css");
     
 
     const options = { sortOrder: -1 };
@@ -31,7 +30,7 @@ export default class PayPlugin extends FlexPlugin {
       .Content
       .replace(<PaymentAgentView key="payment-component" />, options);
 
-    
+
   }
 
   /**
@@ -46,6 +45,6 @@ export default class PayPlugin extends FlexPlugin {
       return;
     }
 
-    manager.store.addReducer(namespace, reducers);
+    //manager.store.addReducer(namespace, reducers);
   }
 }
