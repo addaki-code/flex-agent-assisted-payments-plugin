@@ -22,13 +22,18 @@ class PaymentInProgress extends React.Component {
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Payment Card Number" pascalCaseName="PaymentCardNumber" riverCaseName="payment-card-number" />
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Expiration Date" pascalCaseName="ExpirationDate" riverCaseName="expiration-date" />
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Security Code" pascalCaseName="SecurityCode" riverCaseName="security-code" />
-
+                <>
+                {
+                    this.props.paymentState.ErrorType !== undefined && this.props.paymentState.ErrorType !== "" && 
+                    <div style={{color:'red',fontWeight:'bold'}}>Error: {this.props.paymentState.ErrorType }</div>
+                }
                 { this.props.paymentState.Required !== undefined && 
                     <button 
                         disabled={this.props.paymentState.Required !== ""} 
                         type="button" 
                         onClick={() => this.props.processPayment()}>Process Payment</button>
                 }
+                </>
 
             </div>
 

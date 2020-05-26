@@ -1,8 +1,8 @@
 
 const rp = require('request-promise')
+const qs = require('querystring')
 const TokenValidator = require('twilio-flex-token-validator').functionValidator;
 
-    // Disable: Check for valid Twilio signature on this function
 
 exports.handler = TokenValidator(function(context, event, callback) {
 	const client = context.getTwilioClient();
@@ -20,15 +20,8 @@ exports.handler = TokenValidator(function(context, event, callback) {
 
     console.log(authorization);
 
-
-    client.taskrouter.workspaces(event.workspaceSid)    
-    .tasks(event.taskSid)
-    .fetch()
-    .then(task => {
-        console.log(task);
-        var attributes = JSON.parse(task.attributes);
-
-        var paymentsUrl = "https://api.twilio.com/2010-04-01/Accounts/"+context.ACCOUNT_SID+"/Calls/" + attributes.call_sid + "/Payments.json";
+client.sync.services(context.SYNC_SERVICE_SID).syncLists.create({uniqueName: 'aap:' + event.CallSid}).then(d=>{
+    var paymentsUrl = "https://api.twilio.com/2010-04-01/Accounts/"+context.ACCOUNT_SID+"/Calls/" + event.CallSid + "/Payments.json";
 
         console.log(paymentsUrl);
         console.log('-');
@@ -37,11 +30,11 @@ exports.handler = TokenValidator(function(context, event, callback) {
             method: 'POST',
             uri: paymentsUrl,
             form: {
-                ChargeAmount: 10,
-                IdempotencyKey: 1, 
+                ChargeAmount: event.ChargeAmount,
+                IdempotencyKey: event.IdempotencyKey, 
                 PostalCode: false,
-                StatusCallback: 'https://' + context.DOMAIN_NAME + '/aap-status-callback-tr?TaskSid=' + event.taskSid + '&WorkspaceSid=' + event.workspaceSid,
-                Currency:'gbp'
+                StatusCallback: 'https://' + context.DOMAIN_NAME + '/aap-webhook-ingress',
+                Currency:event.Currency
             },
             headers: {
                 'Content-Type': 'application/x-www-form-url-encoded',
@@ -54,9 +47,13 @@ exports.handler = TokenValidator(function(context, event, callback) {
                 response.setBody(success);
                 console.log(success); callback(null, response) })
             .catch(error => { 
+                console.log(error);
                 response.setBody(error);
                 callback(error, response) });
-    })
-    .catch(error => callback(error,response));
+});
+
+
+        
+
 
 });

@@ -17,9 +17,11 @@ class PaymentAgentView extends React.Component {
             aapStatus: [],
             captureField: undefined,
             paymentMethod: 'credit-card',
-            isDisplayed: false,
-            paymentAmount: 10  
+            isDisplayed: false, 
+            
         };
+
+        this.idempotencyKey = 1;
 
         window.Twilio.Flex.Actions.addListener("afterAcceptTask", (payload) => {
             //props.resetPay();
@@ -109,9 +111,10 @@ class PaymentAgentView extends React.Component {
                     // Now post to Begin Session
                     var body = {
                         Token: this.state.token,
-                        CallSid: this.props.task.attributes.call_sid,
+                        CallSid: this.props.task.attributes.conference.participants.customer,
                         ChargeAmount: chargeAmount,
                         Currency: currency,
+                        IdempotencyKey: ++this.idempotencyKey
                     }
             
                     var options = {
@@ -148,7 +151,8 @@ class PaymentAgentView extends React.Component {
             Token: this.state.token,
             CallSid: this.props.task.attributes.call_sid,
             PaymentSid: this.state.paymentSid,
-            Capture: captureField
+            Capture: captureField,
+            IdempotencyKey: ++this.idempotencyKey
         };
 
         console.log("Requesting capture of field")
@@ -165,7 +169,7 @@ class PaymentAgentView extends React.Component {
         fetch(this.state.runtimeUrl + "/aap-capture-parameter", options)
         .then(success => {
             this.setState({captureField: captureField});
-            console.log("PAN Requested");
+            console.log(captureField + " requested");
             console.log(success)
         }).catch(err => {
             console.log("Failed to request element");
@@ -180,7 +184,8 @@ class PaymentAgentView extends React.Component {
             Token: this.state.token,
             callSid: this.props.task.attributes.call_sid,
             paymentSid: this.state.paymentSid,
-            status: 'complete'
+            status: 'complete',
+            IdempotencyKey: ++this.idempotencyKey
         };
 
         var options = {

@@ -26,7 +26,6 @@ class PaymentElement extends React.Component {
                 
                 <button 
                     type="button" 
-                    disabled={this.props.captureField === this.props.riverCaseName}
                     onClick={() => this.props.requestCapture(this.props.riverCaseName)}
                     >Request Capture</button> 
             </div>
