@@ -1,6 +1,5 @@
 # Agent Assisted Payments Flex Plugin
 
-
 ## Setup
 
 Make sure you have [Node.js](https://nodejs.org) as well as [`npm`](https://npmjs.com) installed.
@@ -8,14 +7,44 @@ Make sure you have [Node.js](https://nodejs.org) as well as [`npm`](https://npmj
 Afterwards, install the dependencies by running `npm install`:
 
 ```bash
-cd 
+cd flex-agent-assisted-payments-plugin
+
+cp appConfig.example.js appConfig.js
+# Add your account SID
 
 # If you use npm
 npm install
 ```
 
+## Create Sync Service
+
+`twilio api:sync:v1:services:create --friendly-name=payments`
+
+In the Twilio Console, create an API Key for your Sync service: https://www.twilio.com/console/sync/project/api-keys/create. Save the values for the next step.
+
 ## Functions
-Deploy each of the 4 functions to Twilio Functions
+
+Deploy each of the 4 functions to Twilio Functions with the filename as the URL path.
+Click "Enable ACCOUNT_SID and AUTH_TOKEN" on https://www.twilio.com/console/functions/configure
+Add your SYNC_SERVICE_SID as a context variable.
+
+Environment variables:
+Add TWILIO_API_KEY as a context variable with the value being the API Key SID for your sync service (SKXXXXXXXXXXXXXXXXXX)
+Add TWILIO_API_SECRET as a context variable with the value being the API Key secret generated in the previous step.
+Add your functions base URL as a DOMAIN_NAME context variable (exclude https://)
+
+Dependencies:
+
+Add the folowing NPM modules as dependencies:
+
+-   twilio-flex-token-validator
+-   querystring
+-   request-promise
+
+## Voice Configuration
+
+Enable your <Pay /> connector on https://www.twilio.com/console/voice/pay-connectors
+Enable PCI mode for your account on https://www.twilio.com/console/voice/settings
 
 ## Development
 
