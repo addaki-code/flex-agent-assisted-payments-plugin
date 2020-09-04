@@ -238,11 +238,16 @@ class PaymentAgentView extends React.Component {
         var paymentState = this.latestPaymentState();
 
         return (
-            <div>
-                <h1>Paymentform</h1>
+            <div
+                style={{
+                    "box-shadow": "inset 20px -1px 20px rgb(134 134 134 / 25%)",
+                    height: "100%",
+                }}
+            >
                 <PaymentForm
                     isDisplayed={this.state.showPaymentForm}
                     initiateAAP={this.initiateAAP}
+                    paymentState={paymentState}
                 />
                 {paymentState != null && (
                     <>

@@ -1,0 +1,107 @@
+.credit-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;
+    padding-bottom: 30px;
+}
+
+input,
+select {
+    height: 30px;
+    font-size: 20px;
+    border-radius: 7px;
+    border: 1px solid #bbb;
+    padding-left: 10px;
+    box-shadow: 0px 3px 3px 0px rgb(134 134 134 / 25%);
+    color: #424242bf;
+}
+
+.credit-card-body {
+    display: flex;
+    background: #fff;
+    height: 186px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0px 20px 12px rgb(134 134 134 / 25%);
+    border: 1px solid #bbbbbb7a;
+}
+
+.chip {
+    position: absolute;
+    margin-left: 200px;
+    margin-top: 95px;
+    height: 35px;
+    width: 50px;
+    background: #ffde8f;
+    border-radius: 6px;
+    border: 1px solid #bbbbbb7a;
+}
+
+.logo {
+    height: 35px;
+    width: 35px;
+    margin: 20px;
+    background-size: contain;
+    background-image: url("https://rosewood-piranha-7882.twil.io/assets/product-icon-programmable-voice.png");
+}
+
+.name {
+    width: 117px;
+    height: 13px;
+    background: #1c20373d;
+    margin-top: 118px;
+    margin-left: -117px;
+    border-radius: 2px;
+}
+
+.number {
+    width: 147px;
+    height: 13px;
+    background: #1c20373d;
+    margin-top: 97px;
+    margin-left: -52px;
+    border-radius: 2px;
+}
+
+.payment-intro-text {
+    text-align: center;
+}
+
+.payment-intro-heading {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.form-label {
+    color: #424242bf;
+    font-weight: 800;
+    font-size: 11px;
+    padding-bottom: 3px;
+}
+
+.pay-icon {
+    background-image: url("https://rosewood-piranha-7882.twil.io/assets/product-icon-pay.png");
+    height: 35px;
+    width: 35px;
+    margin-bottom: 20px;
+    background-size: contain;
+}
+
+.input-card {
+    margin-top: 100px;
+    margin-left: 225px;
+    margin-right: 225px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0px 20px 12px rgb(134 134 134 / 25%);
+}
+
+.payment-input-container {
+    padding: 15px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
