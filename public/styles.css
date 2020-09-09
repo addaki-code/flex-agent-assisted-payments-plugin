@@ -40,6 +40,62 @@ select {
     color: #424242bf;
 }
 
+/* Intro page CSS */
+
+.payment-intro-text {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.payment-intro-heading {
+    font-weight: 900;
+    letter-spacing: -3px;
+    font-size: 75px;
+    margin-top: 30px;
+    width: 400px;
+    margin: 0 auto;
+    word-break: break-word;
+    background: -webkit-radial-gradient(
+            5% 5%,
+            ellipse,
+            #8c5bd8 0%,
+            rgba(240, 172, 173, 0) 75%
+        ),
+        -webkit-radial-gradient(95% 5%, ellipse, #36d576 0%, rgba(
+                        248,
+                        174,
+                        75,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(95% 95%, ellipse, #36d576 -15%, rgba(
+                        219,
+                        176,
+                        72,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(5% 95%, ellipse, #8c5bd8 50%, rgba(
+                        194,
+                        132,
+                        233,
+                        0
+                    )
+                    75%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.payment-intro-subhead {
+    word-break: break-word;
+    width: 400px;
+    margin: 0 auto;
+    font-weight: 100;
+    font-size: 27px;
+    line-height: 110%;
+}
+
+/* Intro page credit card */
 .credit-card-body {
     display: flex;
     background: #fff;
@@ -86,50 +142,6 @@ select {
     margin-top: 97px;
     margin-left: -52px;
     border-radius: 2px;
-}
-
-.payment-intro-text {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.payment-intro-heading {
-    font-weight: 900;
-    letter-spacing: -3px;
-    font-size: 75px;
-    margin-top: 30px;
-    width: 400px;
-    margin: 0 auto;
-    word-break: break-word;
-    background: -webkit-radial-gradient(
-            5% 5%,
-            ellipse,
-            #8c5bd8 0%,
-            rgba(240, 172, 173, 0) 75%
-        ),
-        -webkit-radial-gradient(95% 5%, ellipse, #36d576 0%, rgba(
-                        248,
-                        174,
-                        75,
-                        0
-                    )
-                    75%),
-        -webkit-radial-gradient(95% 95%, ellipse, #36d576 -15%, rgba(
-                        219,
-                        176,
-                        72,
-                        0
-                    )
-                    75%),
-        -webkit-radial-gradient(5% 95%, ellipse, #8c5bd8 50%, rgba(
-                        194,
-                        132,
-                        233,
-                        0
-                    )
-                    75%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .form-label {

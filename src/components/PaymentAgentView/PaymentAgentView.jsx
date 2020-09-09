@@ -3,6 +3,8 @@ import { withTaskContext, Tab } from "@twilio/flex-ui";
 import { SyncClient } from "twilio-sync";
 import PaymentForm from "./PaymentForm";
 import PaymentInProgress from "./PaymentInProgress";
+import PaymentIntro from "./PaymentIntro";
+import PaymentSuccess from "./PaymentSuccess";
 
 // It is recommended to keep components stateless and use redux for managing states
 class PaymentAgentView extends React.Component {
@@ -239,58 +241,55 @@ class PaymentAgentView extends React.Component {
         const { task } = this.props;
 
         var paymentState = this.latestPaymentState();
-
-        return (
-            <div class="component-container">
-                <div class="hero-background"></div>
-
+        let pageContent;
+        if (
+            (this.state.showPaymentForm === undefined ||
+                this.state.showPaymentForm === false) &&
+            paymentState === null
+        ) {
+            pageContent = <PaymentIntro />;
+        } else if (
+            this.state.showPaymentForm === true &&
+            this.latestPaymentState() === null
+        ) {
+            pageContent = (
                 <PaymentForm
                     isDisplayed={this.state.showPaymentForm}
                     initiateAAP={this.initiateAAP}
                     paymentState={paymentState}
                 />
-                {paymentState != null && (
-                    <>
-                        {this.state.paymentMethod == "credit-card" && (
-                            <>
-                                <PaymentInProgress
-                                    captureField={this.state.captureField}
-                                    paymentState={paymentState}
-                                    requestCapture={this.requestCapture}
-                                    processPayment={this.processPayment}
-                                    chargeAmount={this.state.ChargeAmount}
-                                    currency={this.state.Currency}
-                                />
+            );
+        } else if (
+            paymentState !== null &&
+            paymentState.Result !== "success" &&
+            this.state.paymentMethod === "credit-card"
+        ) {
+            pageContent = (
+                <PaymentInProgress
+                    captureField={this.state.captureField}
+                    paymentState={paymentState}
+                    requestCapture={this.requestCapture}
+                    processPayment={this.processPayment}
+                    chargeAmount={this.state.ChargeAmount}
+                    currency={this.state.Currency}
+                />
+            );
+        } else if (
+            paymentState.Result != undefined &&
+            paymentState.Result == "success"
+        ) {
+            pageContent = (
+                <PaymentSuccess
+                    ChargeAmount={this.state.chargeAmount}
+                    Confirmation={paymentState.PaymentConfirmationCode}
+                />
+            );
+        }
 
-                                {paymentState.Result != undefined &&
-                                    paymentState.Result == "success" && (
-                                        <div
-                                            class="input-card"
-                                            style={{ "text-align": "center" }}
-                                        >
-                                            <div class="payment-checkmark"></div>
-                                            <h1 class="payment-form-heading">
-                                                Payment Complete
-                                            </h1>
-                                            <hr class="payment-card-divider" />
-                                            <p>
-                                                <strong>Amount:</strong>{" "}
-                                                {this.state.ChargeAmount}
-                                            </p>
-                                            <p>
-                                                <strong>
-                                                    Confirmation Code:
-                                                </strong>{" "}
-                                                {
-                                                    paymentState.PaymentConfirmationCode
-                                                }
-                                            </p>
-                                        </div>
-                                    )}
-                            </>
-                        )}
-                    </>
-                )}
+        return (
+            <div class="component-container">
+                <div class="hero-background"></div>
+                {pageContent}
             </div>
         );
     }
