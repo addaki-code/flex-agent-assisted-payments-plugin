@@ -41,15 +41,7 @@ class PaymentElement extends React.Component {
                 />
 
                 <button
-                    className="Twilio-Button Twilio-TaskCanvasHeader-EndButton"
-                    style={{
-                        "margin-top": "10px",
-                        height: "30px",
-                        "border-radius": "7px",
-                        border: "1px solid #bbb",
-                        background: "#1976d2",
-                        color: "white",
-                    }}
+                    className="Twilio-Button Twilio-TaskCanvasHeader-EndButton payment-form-button"
                     type="button"
                     onClick={() =>
                         this.props.requestCapture(this.props.riverCaseName)
@@ -57,6 +49,10 @@ class PaymentElement extends React.Component {
                 >
                     Request {this.props.friendlyName}
                 </button>
+
+                <div class="circle-loader">
+                    <div class="checkmark draw"></div>
+                </div>
             </div>
         );
     }

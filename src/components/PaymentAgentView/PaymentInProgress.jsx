@@ -16,10 +16,21 @@ class PaymentInProgress extends React.Component {
             return null;
         }
 
+        let currency = "$";
+        if (currency === "gbp") {
+            currency = "£";
+        }
+
         return (
             <>
                 <div class="input-card">
-                    <h1 class="payment-intro-heading">
+                    <div class="payment-details-container">
+                        <div class="pay-icon"></div>
+                        <h1 class="payment-form-heading">
+                            {currency} {this.props.chargeAmount}
+                        </h1>
+                    </div>
+                    <h1 class="payment-form-heading">
                         Capture Credit Card Information
                     </h1>
                     <hr />
@@ -58,13 +69,7 @@ class PaymentInProgress extends React.Component {
                             )}
                         {this.props.paymentState.Required !== undefined && (
                             <button
-                                style={{
-                                    width: "100%",
-                                    "border-radius": "7px",
-                                    "box-shadow":
-                                        "0px 3px 3px 0px rgb(134 134 134 / 25%)",
-                                }}
-                                className="Twilio-Button Twilio-TaskCanvasHeader-EndButton css-gm15qx"
+                                className="payment-form-button Twilio-Button Twilio-TaskCanvasHeader-EndButton"
                                 disabled={
                                     this.props.paymentState.Required !== ""
                                 }

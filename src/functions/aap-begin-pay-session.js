@@ -41,6 +41,7 @@ exports.handler = TokenValidator(function (context, event, callback) {
                 form: {
                     ChargeAmount: event.ChargeAmount,
                     IdempotencyKey: event.IdempotencyKey,
+                    PaymentConnector: context.PAYMENT_CONNECTOR,
                     PostalCode: false,
                     StatusCallback:
                         "https://" +

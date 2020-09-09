@@ -45,6 +45,7 @@ Add the folowing NPM modules as dependencies:
 
 Enable your <Pay /> connector on https://www.twilio.com/console/voice/pay-connectors
 Enable PCI mode for your account on https://www.twilio.com/console/voice/settings
+Enter the unique name of your Payment Connector as an environment variable called "PAYMENT_CONNECTOR" in https://www.twilio.com/console/functions/configure
 
 ## Development
 

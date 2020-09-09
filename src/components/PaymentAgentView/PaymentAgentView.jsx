@@ -108,6 +108,13 @@ class PaymentAgentView extends React.Component {
 
     initiateAAP = (currency, chargeAmount) => {
         console.log(this.props.task.attributes);
+
+        this.setState({
+            ChargeAmount: chargeAmount,
+            Currency: currency,
+            aapStatus: [{ step: "initiating" }],
+        });
+
         console.log(
             "Initiating Payment for Call Sid: " +
                 this.props.task.attributes.conference.participants.customer
@@ -218,7 +225,7 @@ class PaymentAgentView extends React.Component {
                 console.log("Payment completed successfully");
             })
             .catch((err) => {
-                console.log("Failed to complete payment");
+                console.log("Failed to complete payment", err);
             });
     };
 
@@ -231,19 +238,12 @@ class PaymentAgentView extends React.Component {
     render() {
         const { task } = this.props;
 
-        if (task === undefined) {
-            return null;
-        }
-
         var paymentState = this.latestPaymentState();
 
         return (
-            <div
-                style={{
-                    "box-shadow": "inset 20px -1px 20px rgb(134 134 134 / 25%)",
-                    height: "100%",
-                }}
-            >
+            <div class="component-container">
+                <div class="hero-background"></div>
+
                 <PaymentForm
                     isDisplayed={this.state.showPaymentForm}
                     initiateAAP={this.initiateAAP}
@@ -258,24 +258,29 @@ class PaymentAgentView extends React.Component {
                                     paymentState={paymentState}
                                     requestCapture={this.requestCapture}
                                     processPayment={this.processPayment}
+                                    chargeAmount={this.state.ChargeAmount}
+                                    currency={this.state.Currency}
                                 />
 
                                 {paymentState.Result != undefined &&
                                     paymentState.Result == "success" && (
                                         <div
-                                            style={{
-                                                padding: "12px",
-                                                backgroundColor: "white",
-                                                borderBottom:
-                                                    "1px solid rgb(198, 202, 215)",
-                                                borderLeft:
-                                                    "1px solid rgb(198, 202, 215)",
-                                            }}
+                                            class="input-card"
+                                            style={{ "text-align": "center" }}
                                         >
-                                            <h1 class="Twilio">
-                                                Payment Confirmation Code
+                                            <div class="payment-checkmark"></div>
+                                            <h1 class="payment-form-heading">
+                                                Payment Complete
                                             </h1>
+                                            <hr class="payment-card-divider" />
                                             <p>
+                                                <strong>Amount:</strong>{" "}
+                                                {this.state.ChargeAmount}
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    Confirmation Code:
+                                                </strong>{" "}
                                                 {
                                                     paymentState.PaymentConfirmationCode
                                                 }
