@@ -21,7 +21,7 @@ export default class PayPlugin extends FlexPlugin {
     init(flex, manager) {
         this.registerReducers(manager);
 
-        loadCSS("http://localhost:3002/styles.css");
+        loadCSS("http://localhost:3000/styles.css");
 
         const options = { sortOrder: -1 };
         flex.AgentDesktopView.Panel2.Content.replace(

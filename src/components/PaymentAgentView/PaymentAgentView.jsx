@@ -280,8 +280,9 @@ class PaymentAgentView extends React.Component {
         ) {
             pageContent = (
                 <PaymentSuccess
-                    ChargeAmount={this.state.chargeAmount}
-                    Confirmation={paymentState.PaymentConfirmationCode}
+                    chargeAmount={this.state.ChargeAmount}
+                    currency={this.state.Currency}
+                    confirmation={paymentState.PaymentConfirmationCode}
                 />
             );
         }
