@@ -24,6 +24,11 @@ class PaymentElement extends React.Component {
                 <h2 className='Twilio'>{this.props.friendlyName}</h2>
                 <p>{ this.props.paymentState[this.props.pascalCaseName] }</p>
                 
+                {
+                    (this.props.paymentState["PaymentCardType"] && this.props.pascalCaseName=="PaymentCardNumber" && 
+                    <p>{this.props.paymentState["PaymentCardType"]}</p>
+                )}
+                
                 <button 
                     type="button" 
                     onClick={() => this.props.requestCapture(this.props.riverCaseName)}

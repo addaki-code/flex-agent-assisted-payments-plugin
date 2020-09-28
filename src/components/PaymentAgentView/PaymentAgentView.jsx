@@ -18,7 +18,7 @@ class PaymentAgentView extends React.Component {
             captureField: undefined,
             paymentMethod: 'credit-card',
             isDisplayed: false, 
-            
+            showPaymentForm: false
         };
 
         this.idempotencyKey = 1;
@@ -91,7 +91,7 @@ class PaymentAgentView extends React.Component {
         
         })
         .then(subscribed => {
-            this.requestCapture('payment-card-number')
+            //this.requestCapture('payment-card-number')
         })
         .catch(function(error) {
           console.log('Unexpected error', error);
@@ -102,7 +102,7 @@ class PaymentAgentView extends React.Component {
         this.setState({ showPaymentForm: true });
     }
 
-    initiateAAP = (currency, chargeAmount) => {
+    initiateAAP = (currency, chargeAmount, paymentMethod, description) => {
         console.log(this.props.task.attributes);
         console.log("Initiating Payment for Call Sid: " + this.props.task.attributes.conference.participants.customer);
         fetch(this.state.runtimeUrl + "/sync-token", { method: 'POST' })
@@ -114,7 +114,9 @@ class PaymentAgentView extends React.Component {
                         CallSid: this.props.task.attributes.conference.participants.customer,
                         ChargeAmount: chargeAmount,
                         Currency: currency,
-                        IdempotencyKey: ++this.idempotencyKey
+                        IdempotencyKey: ++this.idempotencyKey,
+                        PaymentMethod: paymentMethod,
+                        Description: description
                     }
             
                     var options = {

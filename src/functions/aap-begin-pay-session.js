@@ -34,7 +34,8 @@ client.sync.services(context.SYNC_SERVICE_SID).syncLists.create({uniqueName: 'aa
                 IdempotencyKey: event.IdempotencyKey, 
                 PostalCode: false,
                 StatusCallback: 'https://' + context.DOMAIN_NAME + '/aap-webhook-ingress',
-                Currency:event.Currency
+                Currency:event.Currency,
+                PaymentMethod: event.PaymentMethod
             },
             headers: {
                 'Content-Type': 'application/x-www-form-url-encoded',

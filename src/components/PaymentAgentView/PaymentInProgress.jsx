@@ -20,8 +20,24 @@ class PaymentInProgress extends React.Component {
                 <p>{this.props.captureField}</p>
                 <hr />
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Payment Card Number" pascalCaseName="PaymentCardNumber" riverCaseName="payment-card-number" />
+                <br />
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Expiration Date" pascalCaseName="ExpirationDate" riverCaseName="expiration-date" />
+                <br />
                 <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Security Code" pascalCaseName="SecurityCode" riverCaseName="security-code" />
+                
+                {/*
+                <br />
+                <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Postal Code" pascalCaseName="PaymentCardPostalCode" riverCaseName="postal-code" />
+                
+                */}
+                
+                <hr />
+{/*                 
+                <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Bank Routing Number" pascalCaseName="BankRoutingNumber" riverCaseName="bank-routing-number" />
+                <PaymentElement captureField={this.props.captureField} requestCapture={this.props.requestCapture} paymentState={this.props.paymentState} friendlyName="Bank Account Number" pascalCaseName="BankAccountNumber" riverCaseName="bank-account-number" /> */}
+
+
+
                 <>
                 {
                     this.props.paymentState.ErrorType !== undefined && this.props.paymentState.ErrorType !== "" && 
