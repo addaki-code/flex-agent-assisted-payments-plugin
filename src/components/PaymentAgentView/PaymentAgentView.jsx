@@ -13,7 +13,7 @@ class PaymentAgentView extends React.Component {
         this.state = {
             token: window.Twilio.Flex.Manager.getInstance().store.getState()
                 .flex.session.ssoTokenPayload.token,
-            runtimeUrl: "https://rosewood-piranha-7882.twil.io",
+            runtimeUrl: "https://lava-guanaco-9004.twil.io",
             paymentSid: null,
             aapStatus: [],
             captureField: undefined,
@@ -135,7 +135,7 @@ class PaymentAgentView extends React.Component {
                         Currency: currency,
                         IdempotencyKey: ++this.idempotencyKey,
                     };
-               }
+               
             
                     var options = {
                         method: "POST",

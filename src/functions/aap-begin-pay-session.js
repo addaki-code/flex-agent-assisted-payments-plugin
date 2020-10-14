@@ -49,6 +49,7 @@ exports.handler = TokenValidator(function (context, event, callback) {
                         context.DOMAIN_NAME +
                         "/aap-webhook-ingress",
                     Currency: event.Currency,
+                    Description: event.Description
                 },
                 headers: {
                     "Content-Type": "application/x-www-form-url-encoded",

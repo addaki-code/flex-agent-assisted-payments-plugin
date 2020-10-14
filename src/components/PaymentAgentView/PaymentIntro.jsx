@@ -23,7 +23,7 @@ export default class PaymentIntro extends React.Component {
                         class="payment-intro-heading"
                         style={{ "line-height": "125%" }}
                     >
-                        Donations
+                        Agent Assisted &lt;Pay&gt;
                     </h1>
                     <br></br>
                     <h2 class="payment-intro-subhead">
