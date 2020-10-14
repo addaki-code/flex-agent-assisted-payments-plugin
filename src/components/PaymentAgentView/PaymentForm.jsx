@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
+import PaymentIntro from "./PaymentIntro";
 
 class PaymentForm extends React.Component {
-
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.paymentAmountRef = React.createRef();
@@ -11,48 +11,71 @@ class PaymentForm extends React.Component {
         this.paymentDescriptionRef = React.createRef();
 
         this.state = {
-            showLoadingSpinner: false
-        }
+            showLoadingSpinner: false,
+        };
     }
 
     initiateAAP = () => {
-        this.props.initiateAAP(this.paymentCurrencyRef.current.value, this.paymentAmountRef.current.value, this.paymentMethodRef.current.value, this.paymentDescriptionRef.current.value);
-    }
+        this.props.initiateAAP(
+            this.paymentCurrencyRef.current.value,
+            this.paymentAmountRef.current.value
+        );
+    };
 
-    render() 
-    {
-        if(!this.props.isDisplayed){
-            return null;
-        }
+    render() {
         return (
-            <div style={{padding:'12px', backgroundColor: 'white', borderBottom:'1px solid rgb(198, 202, 215)', borderLeft:'1px solid rgb(198, 202, 215)'}}>
-                <h1 class="Twilio">Request Payment via Telephone</h1>
-                
-                <h2 class="Twilio">Currency</h2>
-                <select class="Twilio" ref={this.paymentCurrencyRef}>
-                    <option value='gbp'>GBP (£)</option>
-                    <option value='usd'>USD ($)</option>
-                </select>
-                <hr />
+            <div class="input-card">
+                <div class="pay-icon"></div>
+                <h1 class="payment-form-heading">Checkout with Twilio Pay</h1>
 
-                <h2 class="Twilio">Payment Method</h2>
-                <select class="Twilio" ref={this.paymentMethodRef}>
-                    <option value='credit-card'>Credit Card</option>
-                    <option value='ach-debit'>ACH Debit</option>
-                </select>
-                <hr />
+                <div
+                    style={{
+                        display: "flex",
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "flex",
+                            "flex-direction": "column",
+                            padding: "15px",
+                            "padding-left": "0px",
+                        }}
+                    >
+                        <h2 class="form-label">Currency</h2>
+                        <select
+                            class="payment-form-select"
+                            ref={this.paymentCurrencyRef}
+                        >
+                            <option value="usd">USD ($)</option>
+                            <option value="gbp">GBP (£)</option>
+                        </select>
+                    </div>
 
-                <h2 class="Twilio">Charge Amount</h2>
-                <input ref={this.paymentAmountRef} defaultValue="10"/>
-                <hr />
+                    <div
+                        style={{
+                            display: "flex",
+                            "flex-direction": "column",
+                            padding: "15px",
+                        }}
+                    >
+                        <h2 class="form-label">Charge Amount</h2>
+                        <input
+                            ref={this.paymentAmountRef}
+                            class="payment-form-input"
+                            defaultValue="10.00"
+                        />
+                    </div>
+                </div>
+                <br></br>
+                <button
+                    className="Twilio-Button Twilio-TaskCanvasHeader-EndButton payment-form-button"
+                    onClick={this.initiateAAP}
+                >
+                    Request payment
+                </button>
+            </div>
+        );
 
-                <h2 class="Twilio">Description</h2>
-                <input ref={this.paymentDescriptionRef} placeholder="i.e. Pay via Flex!" />
-                <hr />
-
-
-                <button className="Twilio-Button Twilio-TaskCanvasHeader-EndButton css-gm15qx" onClick={this.initiateAAP}>REQUEST PAYMENT</button>
-        </div>);
     }
 }
 
