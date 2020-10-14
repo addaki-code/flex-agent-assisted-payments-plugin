@@ -18,7 +18,7 @@ class PaymentAgentView extends React.Component {
             aapStatus: [],
             captureField: undefined,
             paymentMethod: "credit-card",
-            isDisplayed: false,
+            isDisplayed: false
         };
 
         this.idempotencyKey = 1;
@@ -104,11 +104,13 @@ class PaymentAgentView extends React.Component {
             });
     };
 
+        
+
     showPaymentForm = () => {
         this.setState({ showPaymentForm: true });
     };
 
-    initiateAAP = (currency, chargeAmount) => {
+    initiateAAP = (currency, chargeAmount, paymentMethod, description) => {
         console.log(this.props.task.attributes);
 
         this.setState({
@@ -133,7 +135,8 @@ class PaymentAgentView extends React.Component {
                         Currency: currency,
                         IdempotencyKey: ++this.idempotencyKey,
                     };
-
+               }
+            
                     var options = {
                         method: "POST",
                         body: new URLSearchParams(body),

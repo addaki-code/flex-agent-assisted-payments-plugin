@@ -7,6 +7,8 @@ class PaymentForm extends React.Component {
 
         this.paymentAmountRef = React.createRef();
         this.paymentCurrencyRef = React.createRef();
+        this.paymentMethodRef = React.createRef();
+        this.paymentDescriptionRef = React.createRef();
 
         this.state = {
             showLoadingSpinner: false,
@@ -73,6 +75,7 @@ class PaymentForm extends React.Component {
                 </button>
             </div>
         );
+
     }
 }
 

@@ -19,6 +19,7 @@ exports.handler = TokenValidator(function (context, event, callback) {
             "base64"
         );
 
+
     console.log(authorization);
 
     client.sync

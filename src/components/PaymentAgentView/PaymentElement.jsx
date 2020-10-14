@@ -33,6 +33,7 @@ class PaymentElement extends React.Component {
 
     render() {
         return (
+
             <div style={this.getStyle()} class="payment-input-container">
                 <h2 class="form-label">{this.props.friendlyName}</h2>
                 <input
@@ -53,6 +54,7 @@ class PaymentElement extends React.Component {
                 <div class="circle-loader">
                     <div class="checkmark draw"></div>
                 </div>
+
             </div>
         );
     }
