@@ -1,0 +1,256 @@
+.component-container {
+    box-shadow: inset 20px -1px 20px rgb(134 134 134 / 25%);
+    height: 100%;
+}
+
+.credit-card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 150px;
+    padding-bottom: 30px;
+}
+
+input .payment-form-input {
+    height: 26px;
+}
+
+input .payment-form-select {
+    height: 30px;
+}
+
+.payment-form-button {
+    margin-top: 10px;
+    height: 40px;
+    font-size: 17px;
+    border-radius: 7px;
+    border: none;
+    background: #64be94;
+    color: white;
+    box-shadow: 0px 3px 3px 0px rgb(134 134 134 / 25%);
+}
+
+input,
+select {
+    font-size: 20px;
+    border-radius: 7px;
+    border: 1px solid #bbb;
+    padding-left: 10px;
+    box-shadow: 0px 3px 3px 0px rgb(134 134 134 / 25%);
+    color: #424242bf;
+}
+
+/* Intro page CSS */
+
+.payment-intro-text {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.payment-intro-heading {
+    font-weight: 900;
+    letter-spacing: -3px;
+    font-size: 75px;
+    margin-top: 30px;
+    width: 400px;
+    margin: 0 auto;
+    word-break: break-word;
+    background: -webkit-radial-gradient(
+            5% 5%,
+            ellipse,
+            #8c5bd8 0%,
+            rgba(240, 172, 173, 0) 75%
+        ),
+        -webkit-radial-gradient(95% 5%, ellipse, #36d576 0%, rgba(
+                        248,
+                        174,
+                        75,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(95% 95%, ellipse, #36d576 -15%, rgba(
+                        219,
+                        176,
+                        72,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(5% 95%, ellipse, #8c5bd8 50%, rgba(
+                        194,
+                        132,
+                        233,
+                        0
+                    )
+                    75%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.payment-intro-subhead {
+    word-break: break-word;
+    width: 400px;
+    margin: 0 auto;
+    font-weight: 100;
+    font-size: 27px;
+    line-height: 110%;
+}
+
+/* Intro page credit card */
+.credit-card-body {
+    display: flex;
+    background: #fff;
+    height: 186px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 0px 20px 12px rgb(134 134 134 / 25%);
+    border: 1px solid #bbbbbb7a;
+    transform: rotate(-12deg);
+}
+
+.chip {
+    position: absolute;
+    margin-left: 200px;
+    margin-top: 95px;
+    height: 35px;
+    width: 50px;
+    background: #ffde8f;
+    border-radius: 6px;
+    border: 1px solid #bbbbbb7a;
+}
+
+.logo {
+    height: 35px;
+    width: 35px;
+    margin: 20px;
+    background-size: contain;
+    background-image: url("https://rosewood-piranha-7882.twil.io/assets/product-icon-programmable-voice.png");
+}
+
+.name {
+    width: 117px;
+    height: 13px;
+    background: #1c20373d;
+    margin-top: 118px;
+    margin-left: -117px;
+    border-radius: 2px;
+}
+
+.number {
+    width: 147px;
+    height: 13px;
+    background: #1c20373d;
+    margin-top: 97px;
+    margin-left: -52px;
+    border-radius: 2px;
+}
+
+.form-label {
+    color: #424242bf;
+    font-weight: 800;
+    font-size: 11px;
+    padding-bottom: 3px;
+}
+
+.payment-form-heading {
+    font-size: 25px;
+    color: #333;
+}
+
+.pay-icon {
+    background-image: url("https://rosewood-piranha-7882.twil.io/assets/product-icon-pay.png");
+    height: 35px;
+    width: 35px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    background-size: contain;
+}
+
+.input-card {
+    position: relative;
+    margin-top: 100px;
+    margin-left: 15%;
+    margin-right: 15%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0px 20px 12px rgb(134 134 134 / 25%);
+}
+
+.payment-input-container {
+    padding: 15px;
+    border-radius: 7px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-payment-button {
+    width: 100%;
+    border-radius: 7px;
+    box-shadow: rgb(134 134 134 / 51%) 0px 3px 3px 0px;
+    margin-top: 10px;
+    height: 30px;
+    border-radius: 7px;
+    border: none;
+    background: rgb(25, 118, 210);
+    color: white;
+}
+
+.hero-background {
+    position: absolute;
+    height: 500px;
+    width: 120%;
+    transform: rotate(-12deg);
+    top: -240px;
+    left: -110px;
+    z-index: 0;
+    background: -webkit-radial-gradient(
+            5% 5%,
+            ellipse,
+            #f32f46 0%,
+            rgba(240, 172, 173, 0) 75%
+        ),
+        -webkit-radial-gradient(95% 5%, ellipse, #0263e0 0%, rgba(
+                        248,
+                        174,
+                        75,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(95% 95%, ellipse, #36d576 -15%, rgba(
+                        219,
+                        176,
+                        72,
+                        0
+                    )
+                    75%),
+        -webkit-radial-gradient(5% 95%, ellipse, #8c5bd8 50%, rgba(
+                        194,
+                        132,
+                        233,
+                        0
+                    )
+                    75%);
+}
+
+.payment-checkmark {
+    background-image: url("https://rosewood-piranha-7882.twil.io/assets/Flat_tick_icon.png");
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    background-size: contain;
+}
+
+.payment-details-container {
+    display: flex;
+}
+
+.payment-card-divider {
+    border: solid 1px #bbb;
+    width: 50%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
