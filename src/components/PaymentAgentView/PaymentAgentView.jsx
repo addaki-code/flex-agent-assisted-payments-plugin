@@ -252,6 +252,7 @@ class PaymentAgentView extends React.Component {
                 this.state.showPaymentForm === false) &&
             paymentState === null
         ) {
+            return null;
             // Return null here if you want to get rid of the PaymentIntro screen.
             pageContent = <PaymentIntro />;
         } else if (

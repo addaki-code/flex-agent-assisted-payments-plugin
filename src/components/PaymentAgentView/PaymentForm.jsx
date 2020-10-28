@@ -33,6 +33,8 @@ class PaymentForm extends React.Component {
                 <div
                     style={{
                         display: "flex",
+                        flexDirection: "row",
+                        flexWrap: "wrap"
                     }}
                 >
                     <div
@@ -52,12 +54,14 @@ class PaymentForm extends React.Component {
                             <option value="gbp">GBP (£)</option>
                         </select>
                     </div>
-
+                    <br />
                     <div
                         style={{
                             display: "flex",
                             "flex-direction": "column",
                             padding: "15px",
+                            "padding-left": "0px",
+
                         }}
                     >
                         <h2 class="form-label">Charge Amount</h2>
@@ -67,19 +71,21 @@ class PaymentForm extends React.Component {
                             defaultValue="10.00"
                         />
                     </div>
-
+                    <br /> 
                     <div
                         style={{
                             display: "flex",
                             "flex-direction": "column",
                             padding: "15px",
+                            "padding-left": "0px",
+
                         }}
                     >
                         <h2 class="form-label">Charge Description</h2>
                         <input
                             ref={this.paymentDescriptionRef}
                             class="payment-form-input"
-                            defaultValue="10.00"
+                            placeholder="Description"
                         />
                     </div>
                 </div>

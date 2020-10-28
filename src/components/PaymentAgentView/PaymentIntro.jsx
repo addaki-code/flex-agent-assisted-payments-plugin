@@ -2,6 +2,7 @@ import React from "react";
 
 export default class PaymentIntro extends React.Component {
     render() {
+        return null;
         return (
             <div>
                 <div class="credit-card-container">
