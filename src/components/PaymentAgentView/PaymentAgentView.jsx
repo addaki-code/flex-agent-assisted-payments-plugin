@@ -13,7 +13,7 @@ class PaymentAgentView extends React.Component {
         this.state = {
             token: window.Twilio.Flex.Manager.getInstance().store.getState()
                 .flex.session.ssoTokenPayload.token,
-            runtimeUrl: "https://lava-guanaco-9004.twil.io",
+            runtimeUrl: "https://agent-assisted-payments-9653.twil.io",
             paymentSid: null,
             aapStatus: [],
             captureField: undefined,
@@ -23,7 +23,8 @@ class PaymentAgentView extends React.Component {
 
         this.idempotencyKey = 1;
 
-        window.Twilio.Flex.Actions.addListener("afterAcceptTask", (payload) => {
+        window.Twilio.Flex.Actions.addListener(
+            "afterAcceptTask", (payload) => {
             //props.resetPay();
             this.setState({
                 paymentSid: null,
@@ -129,13 +130,14 @@ class PaymentAgentView extends React.Component {
                     // Now post to Begin Session
                     var body = {
                         Token: this.state.token,
-                        CallSid: this.props.task.attributes.conference
-                            .participants.customer,
+                        CallSid: this.props.task.attributes.conference.participants.customer,
                         ChargeAmount: chargeAmount,
                         Currency: currency,
                         IdempotencyKey: ++this.idempotencyKey,
+                        Description: description,
+                        PaymentMethod: paymentMethod
                     };
-               
+                    console.table(body);
             
                     var options = {
                         method: "POST",
@@ -210,9 +212,9 @@ class PaymentAgentView extends React.Component {
 
         var body = {
             Token: this.state.token,
-            callSid: this.props.task.attributes.call_sid,
-            paymentSid: this.state.paymentSid,
-            status: "complete",
+            CallSid: this.props.task.attributes.call_sid,
+            PaymentSid: this.state.paymentSid,
+            Status: "complete",
             IdempotencyKey: ++this.idempotencyKey,
         };
 
@@ -250,6 +252,7 @@ class PaymentAgentView extends React.Component {
                 this.state.showPaymentForm === false) &&
             paymentState === null
         ) {
+            // Return null here if you want to get rid of the PaymentIntro screen.
             pageContent = <PaymentIntro />;
         } else if (
             this.state.showPaymentForm === true &&

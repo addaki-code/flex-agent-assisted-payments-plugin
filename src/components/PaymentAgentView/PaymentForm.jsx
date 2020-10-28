@@ -18,7 +18,9 @@ class PaymentForm extends React.Component {
     initiateAAP = () => {
         this.props.initiateAAP(
             this.paymentCurrencyRef.current.value,
-            this.paymentAmountRef.current.value
+            this.paymentAmountRef.current.value,
+            "credit-card",
+            this.paymentDescriptionRef.current.value
         );
     };
 
@@ -61,6 +63,21 @@ class PaymentForm extends React.Component {
                         <h2 class="form-label">Charge Amount</h2>
                         <input
                             ref={this.paymentAmountRef}
+                            class="payment-form-input"
+                            defaultValue="10.00"
+                        />
+                    </div>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            "flex-direction": "column",
+                            padding: "15px",
+                        }}
+                    >
+                        <h2 class="form-label">Charge Description</h2>
+                        <input
+                            ref={this.paymentDescriptionRef}
                             class="payment-form-input"
                             defaultValue="10.00"
                         />
