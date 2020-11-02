@@ -11,7 +11,7 @@ export default class PaymentSuccess extends React.Component {
             <div
                 class="input-card"
                 style={{
-                    "text-align": "center",
+                    "textAlign": "center",
                 }}
             >
                 <div class="payment-checkmark"></div>

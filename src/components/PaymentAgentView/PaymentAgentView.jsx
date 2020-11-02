@@ -3,17 +3,23 @@ import { withTaskContext, Tab } from "@twilio/flex-ui";
 import { SyncClient } from "twilio-sync";
 import PaymentForm from "./PaymentForm";
 import PaymentInProgress from "./PaymentInProgress";
-import PaymentIntro from "./PaymentIntro";
 import PaymentSuccess from "./PaymentSuccess";
+
+
+
 
 // It is recommended to keep components stateless and use redux for managing states
 class PaymentAgentView extends React.Component {
+
+    
+
     constructor(props) {
         super(props);
+        
         this.state = {
             token: window.Twilio.Flex.Manager.getInstance().store.getState()
                 .flex.session.ssoTokenPayload.token,
-            runtimeUrl: "https://agent-assisted-payments-9653.twil.io",
+            runtimeUrl: props.runtimeUrl,
             paymentSid: null,
             aapStatus: [],
             captureField: undefined,
@@ -198,8 +204,6 @@ class PaymentAgentView extends React.Component {
         fetch(this.state.runtimeUrl + "/aap-capture-parameter", options)
             .then((success) => {
                 this.setState({ captureField: captureField });
-                console.log(captureField + " requested");
-                console.log(success);
             })
             .catch((err) => {
                 console.log("Failed to request element");
@@ -237,7 +241,6 @@ class PaymentAgentView extends React.Component {
     };
 
     latestPaymentState = () => {
-        console.log("Length of AAP Status: " + this.state.aapStatus.length);
         if (this.state.aapStatus.length === 0) return null;
         return this.state.aapStatus[this.state.aapStatus.length - 1];
     };
@@ -253,8 +256,6 @@ class PaymentAgentView extends React.Component {
             paymentState === null
         ) {
             return null;
-            // Return null here if you want to get rid of the PaymentIntro screen.
-            pageContent = <PaymentIntro />;
         } else if (
             this.state.showPaymentForm === true &&
             this.latestPaymentState() === null

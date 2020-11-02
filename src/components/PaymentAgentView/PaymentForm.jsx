@@ -1,5 +1,5 @@
 import React from "react";
-import PaymentIntro from "./PaymentIntro";
+
 
 class PaymentForm extends React.Component {
     constructor(props) {
@@ -50,8 +50,9 @@ class PaymentForm extends React.Component {
                             class="payment-form-select"
                             ref={this.paymentCurrencyRef}
                         >
-                            <option value="usd">USD ($)</option>
                             <option value="gbp">GBP (£)</option>
+                            <option value="usd">USD ($)</option>
+                            <option value="eur">EUR (€)</option>
                         </select>
                     </div>
                     <br />
