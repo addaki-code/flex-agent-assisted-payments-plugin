@@ -41,7 +41,7 @@ npm install
 
 Make a copy of the .env.example file, call it .env, and populated it with values from Twilio Console
 
-```
+```bash
 ACCOUNT_SID=
 AUTH_TOKEN=
 TWILIO_API_SECRET=
