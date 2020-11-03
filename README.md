@@ -41,12 +41,14 @@ npm install
 
 Make a copy of the .env.example file, call it .env, and populated it with values from Twilio Console
 
+```
 ACCOUNT_SID=
 AUTH_TOKEN=
 TWILIO_API_SECRET=
 TWILIO_API_KEY=
 PAYMENT_CONNECTOR=Default
 SYNC_SERVICE_SID=
+```
 
 Replace the name of your payment connector with the name you gave to it in the Twilio Console. 
 You will need to create a new API Key/Secret using the Twilio Console.
