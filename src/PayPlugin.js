@@ -2,11 +2,11 @@ import React from "react";
 import { VERSION, Tab } from "@twilio/flex-ui";
 import { FlexPlugin, loadCSS } from "flex-plugin";
 import './styles/styles.css';
+import config from './payConfig.json'
 
 import PaymentAgentView from "./components/PaymentAgentView/PaymentAgentView";
 
 const PLUGIN_NAME = "PayPlugin";
-const RUNTIME_URL = "https://agent-assisted-payments-9653.twil.io";
 
 
 export default class PayPlugin extends FlexPlugin {
@@ -28,7 +28,7 @@ export default class PayPlugin extends FlexPlugin {
 
         const options = { sortOrder: -1 };
         flex.AgentDesktopView.Panel2.Content.add(
-            <PaymentAgentView key="payment-component" runtimeUrl="https://agent-assisted-payments-9653.twil.io" />,
+            <PaymentAgentView key="payment-component" runtimeUrl={config.RUNTIME_URL} />,
             options
         );
     }
