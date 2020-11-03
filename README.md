@@ -9,37 +9,40 @@ Afterwards, install the dependencies by running `npm install`:
 ```bash
 cd flex-agent-assisted-payments-plugin
 
-cp appConfig.example.js appConfig.js
-# Add your account SID
-
 # If you use npm
 npm install
 ```
 
-## Create Sync Service
+## Creating the Serverless Backend Functions
+```bash
+cd aap-backend
+npm install
 
-`twilio api:sync:v1:services:create --friendly-name=payments`
 
-In the Twilio Console, create an API Key for your Sync service: https://www.twilio.com/console/sync/project/api-keys/create. Save the values for the next step.
+```
 
-## Functions
+Make a copy of the .env.example file, call it .env, and populated it with values from Twilio Console
 
-Deploy each of the 4 functions to Twilio Functions with the filename as the URL path.
-Click "Enable ACCOUNT_SID and AUTH_TOKEN" on https://www.twilio.com/console/functions/configure
-Add your SYNC_SERVICE_SID as a context variable.
+ACCOUNT_SID=
+AUTH_TOKEN=
+TWILIO_API_SECRET=
+TWILIO_API_KEY=
+PAYMENT_CONNECTOR=Default
+SYNC_SERVICE_SID=
 
-Environment variables:
-Add TWILIO_API_KEY as a context variable with the value being the API Key SID for your sync service (SKXXXXXXXXXXXXXXXXXX)
-Add TWILIO_API_SECRET as a context variable with the value being the API Key secret generated in the previous step.
-Add your functions base URL as a DOMAIN_NAME context variable (exclude https://)
+Replace the name of your payment connector with the name you gave to it in the Twilio Console. 
+You will need to create a new API Key/Secret using the Twilio Console.
+You will be able to find your Account SID, Auth Token, and Sync Service ID in the Twilio console. 
 
-Dependencies:
+## Deploy Functions
 
-Add the folowing NPM modules as dependencies:
+`twilio serverless:deploy`
 
--   twilio-flex-token-validator
--   querystring
--   request-promise
+Wait a few moments, and your functions should be deployed to Twilio Serverless with a domain like:
+
+`aap-backend-XXXX-dev.twil.io`
+
+Make a note of this Domain. You will need it soon.
 
 ## Voice Configuration
 
