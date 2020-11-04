@@ -9,17 +9,18 @@ exports.handler = TokenValidator(function (context, event, callback) {
 
     console.log("got twilio client");
 
-    const response = new Twilio.Response();
-    response.appendHeader("Access-Control-Allow-Origin", "*");
-    response.appendHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET");
-    response.appendHeader("Access-Control-Allow-Headers", "Content-Type");
-    response.appendHeader('Content-Type', 'application/json');
+    var whenShouldListExpire = new Date();
+    whenShouldListExpire.setDate(whenShouldListExpire.getDate() + 1);
 
     client
         .sync
         .services(context.SYNC_SERVICE_SID)
         .syncLists
-        .create({ uniqueName: 'aap:' + event.CallSid })
+        .create(
+            { 
+                uniqueName: 'aap:' + event.CallSid, 
+                dateExpires: whenShouldListExpire.toISOString()
+            })
         .then(() => {
             console.log("list created. Starting payment");
             client.calls(event.CallSid).payments.create({
@@ -41,7 +42,7 @@ exports.handler = TokenValidator(function (context, event, callback) {
                 console.log("unable to create payment");
                 console.log(error);
                 response.setBody(error);
-                return callback(error, response);
+                return callback(error, cors.response(error));
             });
         })
         .catch((error) => {
@@ -49,6 +50,6 @@ exports.handler = TokenValidator(function (context, event, callback) {
 
             console.log(error);
             response.setBody(error);
-            return callback(error, response);
+            return callback(error, cors.response(error));
         });
 });
