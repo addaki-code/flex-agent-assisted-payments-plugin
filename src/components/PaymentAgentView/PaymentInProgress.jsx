@@ -17,7 +17,7 @@ class PaymentInProgress extends React.Component {
         }
 
         let currency = "$";
-        if (currency === "gbp") {
+        if (this.props.currency === "gbp") {
             currency = "£";
         }
 
