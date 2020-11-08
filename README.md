@@ -73,6 +73,8 @@ Return to the main plugin directory.
 
 Open file payConfig.json and replace the runtime domain with the URL from your Serverless Deployment. Make sure to add the https:// to the front. 
 
+You can also modify your currency settings in this file. Simply provide a list of the currencies needed, in both ISO and Symbol form. This configuration will drive the dropdowns in the UI. 
+
 Now is also the perfect time to customise the plugin with your specific requirements.
 
 ## Deploy Plugin
