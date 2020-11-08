@@ -1,24 +1,17 @@
 import React from "react";
+import {GetSymbolForCurrencyISO} from "../../util/CurrencyUtil";
+
 
 export default class PaymentSuccess extends React.Component {
+    
     render() {
-        let currency = "$";
-        if (this.props.currency === "gbp") {
-            currency = "£";
-        }
-
         return (
-            <div
-                class="input-card"
-                style={{
-                    "textAlign": "center",
-                }}
-            >
+            <div class="input-card centered-text">
                 <div class="payment-checkmark"></div>
                 <h1 class="payment-form-heading">Payment Complete</h1>
                 <hr class="payment-card-divider" />
                 <p>
-                    <strong>Amount:</strong> {currency}{" "}
+                    <strong>Amount:</strong> {GetSymbolForCurrencyISO(this.props.currency)}{" "}
                     {this.props.chargeAmount}
                 </p>
                 <p>
