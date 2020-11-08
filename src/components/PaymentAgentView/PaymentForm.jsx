@@ -1,4 +1,5 @@
 import React from "react";
+import config from '../../payConfig.json'
 
 
 class PaymentForm extends React.Component {
@@ -25,9 +26,20 @@ class PaymentForm extends React.Component {
     };
 
     render() {
+
+        const currencies = [];
+        config.CURRENCY_CONFIG.forEach((currency, index) => {
+            currencies.push(
+                <option 
+                    value={currency.ISO}>
+                    {currency.ISO.toUpperCase()} ({currency.Symbol})
+                </option>
+            )
+        })
+
         return (
-            <div class="input-card">
-                <div class="pay-icon"></div>
+            <div className="input-card">
+                <div className="pay-icon"></div>
                 <h1 className="payment-form-heading">Checkout with Twilio Pay</h1>
 
                 <div className="payment-form">
@@ -37,26 +49,24 @@ class PaymentForm extends React.Component {
                             className="payment-form-select"
                             ref={this.paymentCurrencyRef}
                         >
-                            <option value="gbp">GBP (£)</option>
-                            <option value="usd">USD ($)</option>
-                            <option value="eur">EUR (€)</option>
+                            {currencies}
                         </select>
                     </div>
                     <br />
                     <div className="payment-form-group">
-                        <h2 class="form-label">Charge Amount</h2>
+                        <h2 className="form-label">Charge Amount</h2>
                         <input
                             ref={this.paymentAmountRef}
-                            class="payment-form-input"
+                            className="payment-form-input"
                             defaultValue="10.00"
                         />
                     </div>
                     <br /> 
                     <div className="payment-form-group">
-                        <h2 class="form-label">Charge Description</h2>
+                        <h2 className="form-label">Charge Description</h2>
                         <input
                             ref={this.paymentDescriptionRef}
-                            class="payment-form-input"
+                            className="payment-form-input"
                             placeholder="Description"
                         />
                     </div>

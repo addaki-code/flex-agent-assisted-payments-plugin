@@ -1,5 +1,6 @@
 import React from "react";
 import PaymentElement from "./PaymentElement";
+import {GetSymbolForCurrencyISO} from "../../util/CurrencyUtil";
 
 class PaymentInProgress extends React.Component {
     constructor(props) {
@@ -16,21 +17,16 @@ class PaymentInProgress extends React.Component {
             return null;
         }
 
-        let currency = "$";
-        if (this.props.currency === "gbp") {
-            currency = "£";
-        }
-
         return (
             <>
-                <div class="input-card">
-                    <div class="payment-details-container">
-                        <div class="pay-icon"></div>
-                        <h1 class="payment-form-heading">
-                            {currency} {this.props.chargeAmount}
+                <div className="input-card">
+                    <div className="payment-details-container">
+                        <div className="pay-icon"></div>
+                        <h1 className="payment-form-heading">
+                            {GetSymbolForCurrencyISO(this.props.currency)} {this.props.chargeAmount}
                         </h1>
                     </div>
-                    <h1 class="payment-form-heading">
+                    <h1 className="payment-form-heading">
                         Capture Credit Card Information
                     </h1>
                     <hr />

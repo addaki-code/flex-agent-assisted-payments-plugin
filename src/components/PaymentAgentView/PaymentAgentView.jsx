@@ -4,7 +4,7 @@ import { SyncClient } from "twilio-sync";
 import PaymentForm from "./PaymentForm";
 import PaymentInProgress from "./PaymentInProgress";
 import PaymentSuccess from "./PaymentSuccess";
-
+import PaymentFailure from "./PaymentFailure";
 
 
 
@@ -280,7 +280,7 @@ class PaymentAgentView extends React.Component {
             );
         } else if (
             paymentState !== null &&
-            paymentState.Result !== "success" &&
+            paymentState.Result === undefined &&
             this.state.paymentMethod === "credit-card"
         ) {
             pageContent = (
@@ -304,11 +304,22 @@ class PaymentAgentView extends React.Component {
                     confirmation={paymentState.PaymentConfirmationCode}
                 />
             );
+        } else if (
+            paymentState.Result != undefined && 
+            paymentState.Result != "success" 
+        ) {
+            pageContent = (
+                <PaymentFailure
+                    chargeAmount={this.state.ChargeAmount}
+                    currency={this.state.Currency}
+                    paymentState={paymentState}
+                />
+            )
         }
 
         return (
-            <div class="component-container">
-                <div class="hero-background"></div>
+            <div className="component-container">
+                <div className="hero-background"></div>
                 {pageContent}
             </div>
         );
