@@ -130,7 +130,18 @@ class PaymentAgentView extends React.Component {
             "Initiating Payment for Call Sid: " +
                 this.props.task.attributes.conference.participants.customer
         );
-        fetch(this.state.runtimeUrl + "/sync-token", { method: "POST" })
+
+
+        var getTokenOptions = {
+            method: "POST",
+            body: new URLSearchParams({Token: this.state.token}),
+            headers: {
+                "Content-Type":
+                    "application/x-www-form-urlencoded;charset=UTF-8",
+            },
+        };
+
+        fetch(this.state.runtimeUrl + "/sync-token", getTokenOptions)
             .then((token) => {
                 token.json().then((json) => {
                     // Now post to Begin Session

@@ -1,3 +1,5 @@
+const TokenValidator = require('twilio-flex-token-validator').functionValidator;
+
 /**
  *  Sync Token Template
  * 
@@ -10,10 +12,9 @@
 *   - Create an API Key (https://www.twilio.com/console/runtime/api-keys)
  */
 
-exports.handler = function (context, event, callback) {
+exports.handler = TokenValidator(function (context, event, callback) {
     // make sure you enable ACCOUNT_SID and AUTH_TOKEN in Functions/Configuration
     const ACCOUNT_SID = context.ACCOUNT_SID;
-
     const SERVICE_SID = context.SYNC_SERVICE_SID;
     const API_KEY = context.TWILIO_API_KEY;
     const API_SECRET = context.TWILIO_API_SECRET;
@@ -37,17 +38,11 @@ exports.handler = function (context, event, callback) {
     accessToken.addGrant(syncGrant);
     accessToken.identity = IDENTITY;
 
-    const response = new Twilio.Response();
-    response.appendHeader('Access-Control-Allow-Origin', '*');
-    response.appendHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
-    response.appendHeader('Access-Control-Allow-Headers', 'Content-Type');
-    response.appendHeader('Content-Type', 'application/json');
+    let cors = require(Runtime.getFunctions()['utility/cors-response'].path);
 
     var responseBody = {
         token: accessToken.toJwt()
     };
 
-    response.setBody(responseBody);
-
-    callback(null, response);
-}
+    callback(null, cors.response(responseBody));
+});
