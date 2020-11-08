@@ -5,8 +5,8 @@ import PaymentForm from "./PaymentForm";
 import PaymentInProgress from "./PaymentInProgress";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentFailure from "./PaymentFailure";
-import { GetFlexUserToken, GetTokenisedFetchOptions } from "../../util/FlexUtil"
-
+import { GetTokenisedFetchOptions } from "../../util/FlexUtil"
+import { PayCaptureParameter, PayCompleteSession, PayInitiateRequest } from "./PayRequestFactory"
 
 // It is recommended to keep components stateless and use redux for managing states
 class PaymentAgentView extends React.Component {
@@ -135,10 +135,7 @@ class PaymentAgentView extends React.Component {
                     };
                     console.table(body);
             
-                    fetch(
-                        this.state.runtimeUrl + "/aap-begin-pay-session",
-                        GetTokenisedFetchOptions(body)
-                    )
+                    fetch(PayInitiateRequest(body))
                         .then((success) => {
                             console.log("Initiated AAP");
                             success.json().then((response) => {
@@ -171,7 +168,7 @@ class PaymentAgentView extends React.Component {
 
         console.log("Requesting capture of field: " + captureField);
 
-        fetch(this.state.runtimeUrl + "/aap-capture-parameter", GetTokenisedFetchOptions(body))
+        fetch(PayCaptureParameter(body))
             .then((success) => {
                 this.setState({ captureField: captureField });
             })
@@ -191,7 +188,7 @@ class PaymentAgentView extends React.Component {
             IdempotencyKey: ++this.idempotencyKey,
         };
 
-        fetch(this.state.runtimeUrl + "/aap-complete-pay-session", GetTokenisedFetchOptions(body))
+        fetch(PayCompleteSession(body))
             .then((success) => {
                 console.log("Payment completion requested");
             })
