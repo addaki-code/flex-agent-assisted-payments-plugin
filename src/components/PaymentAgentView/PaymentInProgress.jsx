@@ -23,14 +23,14 @@ class PaymentInProgress extends React.Component {
 
         return (
             <>
-                <div class="input-card">
-                    <div class="payment-details-container">
-                        <div class="pay-icon"></div>
-                        <h1 class="payment-form-heading">
+                <div className="input-card">
+                    <div className="payment-details-container">
+                        <div className="pay-icon"></div>
+                        <h1 className="payment-form-heading">
                             {currency} {this.props.chargeAmount}
                         </h1>
                     </div>
-                    <h1 class="payment-form-heading">
+                    <h1 className="payment-form-heading">
                         Capture Credit Card Information
                     </h1>
                     <hr />
