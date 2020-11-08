@@ -28,26 +28,13 @@ class PaymentForm extends React.Component {
         return (
             <div class="input-card">
                 <div class="pay-icon"></div>
-                <h1 class="payment-form-heading">Checkout with Twilio Pay</h1>
+                <h1 className="payment-form-heading">Checkout with Twilio Pay</h1>
 
-                <div
-                    style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        flexWrap: "wrap"
-                    }}
-                >
-                    <div
-                        style={{
-                            display: "flex",
-                            "flex-direction": "column",
-                            padding: "15px",
-                            "padding-left": "0px",
-                        }}
-                    >
-                        <h2 class="form-label">Currency</h2>
+                <div className="payment-form">
+                    <div className="payment-form-group">
+                        <h2 className="form-label">Currency</h2>
                         <select
-                            class="payment-form-select"
+                            className="payment-form-select"
                             ref={this.paymentCurrencyRef}
                         >
                             <option value="gbp">GBP (£)</option>
@@ -56,15 +43,7 @@ class PaymentForm extends React.Component {
                         </select>
                     </div>
                     <br />
-                    <div
-                        style={{
-                            display: "flex",
-                            "flex-direction": "column",
-                            padding: "15px",
-                            "padding-left": "0px",
-
-                        }}
-                    >
+                    <div className="payment-form-group">
                         <h2 class="form-label">Charge Amount</h2>
                         <input
                             ref={this.paymentAmountRef}
@@ -73,15 +52,7 @@ class PaymentForm extends React.Component {
                         />
                     </div>
                     <br /> 
-                    <div
-                        style={{
-                            display: "flex",
-                            "flex-direction": "column",
-                            padding: "15px",
-                            "padding-left": "0px",
-
-                        }}
-                    >
+                    <div className="payment-form-group">
                         <h2 class="form-label">Charge Description</h2>
                         <input
                             ref={this.paymentDescriptionRef}

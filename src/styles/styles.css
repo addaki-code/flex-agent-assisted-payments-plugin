@@ -252,3 +252,17 @@ select {
     margin-top: 15px;
     margin-bottom: 15px;
 }
+
+
+.payment-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.payment-form-group {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    padding-left: 0px;
+}
