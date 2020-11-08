@@ -1,11 +1,14 @@
+import config from "../payConfig.json"
+
 export const GetSymbolForCurrencyISO = (isoCode) => {
-    switch(isoCode){
-        case "gbp": return "£";
-        case "usd": return "$";
-        case "eur": return "€";
-        default: {
-            console.log("Undefined Currency Symbol");
-            return " ";
-        }
-    }
+    
+    const match = config.CURRENCY_CONFIG.filter(currency => currency.ISO === isoCode);
+    
+    if(match.length != 1){
+        console.log("Invalid Currency Config for: " + isoCode);
+        return " ";
+    }else{
+        return match[0].Symbol;
+    }    
+
 }
