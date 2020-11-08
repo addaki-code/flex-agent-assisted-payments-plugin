@@ -242,6 +242,14 @@ select {
     background-size: contain;
 }
 
+.payment-errormark {
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    background-size: contain;
+}
+
 .payment-details-container {
     display: flex;
 }
@@ -265,4 +273,8 @@ select {
     flex-direction: column;
     padding: 15px;
     padding-left: 0px;
+}
+
+.centered-text {
+    text-align: center;
 }
