@@ -5,20 +5,16 @@ import PaymentForm from "./PaymentForm";
 import PaymentInProgress from "./PaymentInProgress";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentFailure from "./PaymentFailure";
-
+import { GetFlexUserToken, GetTokenisedFetchOptions } from "../../util/FlexUtil"
 
 
 // It is recommended to keep components stateless and use redux for managing states
 class PaymentAgentView extends React.Component {
 
-    
-
     constructor(props) {
         super(props);
         
         this.state = {
-            token: window.Twilio.Flex.Manager.getInstance().store.getState()
-                .flex.session.ssoTokenPayload.token,
             runtimeUrl: props.runtimeUrl,
             paymentSid: null,
             aapStatus: [],
@@ -30,30 +26,13 @@ class PaymentAgentView extends React.Component {
         this.idempotencyKey = 1;
 
         window.Twilio.Flex.Actions.addListener(
-            "afterAcceptTask", (payload) => {
-            //props.resetPay();
-            this.setState({
-                paymentSid: null,
-                aapStatus: [],
-                captureField: undefined,
-                paymentMethod: "credit-card",
-                isDisplayed: false,
-                showPaymentForm: false,
-            });
-        });
+            "afterAcceptTask", 
+            (payload) => { this.resetPay(); }
+        );
 
         window.Twilio.Flex.Actions.addListener(
             "afterCompleteTask",
-            (payload) => {
-                this.setState({
-                    paymentSid: null,
-                    aapStatus: [],
-                    captureField: undefined,
-                    paymentMethod: "credit-card",
-                    isDisplayed: false,
-                    showPaymentForm: false,
-                });
-            }
+            (payload) => { this.resetPay(); }
         );
 
         window.Twilio.Flex.CallCanvasActions.Content.add(
@@ -66,6 +45,17 @@ class PaymentAgentView extends React.Component {
             </button>,
             { sortOrder: -1 }
         );
+    }
+
+    resetPay = () => {
+        this.setState({
+            paymentSid: null,
+            aapStatus: [],
+            captureField: undefined,
+            paymentMethod: "credit-card",
+            isDisplayed: false,
+            showPaymentForm: false,
+        });
     }
 
     displayPaymentForm = () => {
@@ -131,22 +121,11 @@ class PaymentAgentView extends React.Component {
                 this.props.task.attributes.conference.participants.customer
         );
 
-
-        var getTokenOptions = {
-            method: "POST",
-            body: new URLSearchParams({Token: this.state.token}),
-            headers: {
-                "Content-Type":
-                    "application/x-www-form-urlencoded;charset=UTF-8",
-            },
-        };
-
-        fetch(this.state.runtimeUrl + "/sync-token", getTokenOptions)
+        fetch(this.state.runtimeUrl + "/sync-token", GetTokenisedFetchOptions({}))
             .then((token) => {
                 token.json().then((json) => {
                     // Now post to Begin Session
                     var body = {
-                        Token: this.state.token,
                         CallSid: this.props.task.attributes.conference.participants.customer,
                         ChargeAmount: chargeAmount,
                         Currency: currency,
@@ -156,18 +135,9 @@ class PaymentAgentView extends React.Component {
                     };
                     console.table(body);
             
-                    var options = {
-                        method: "POST",
-                        body: new URLSearchParams(body),
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded;charset=UTF-8",
-                        },
-                    };
-
                     fetch(
                         this.state.runtimeUrl + "/aap-begin-pay-session",
-                        options
+                        GetTokenisedFetchOptions(body)
                     )
                         .then((success) => {
                             console.log("Initiated AAP");
@@ -193,26 +163,15 @@ class PaymentAgentView extends React.Component {
 
     requestCapture = (captureField) => {
         var body = {
-            Token: this.state.token,
             CallSid: this.props.task.attributes.call_sid,
             PaymentSid: this.state.paymentSid,
             Capture: captureField,
             IdempotencyKey: ++this.idempotencyKey,
         };
 
-        console.log("Requesting capture of field");
-        console.log(body);
+        console.log("Requesting capture of field: " + captureField);
 
-        var options = {
-            method: "POST",
-            body: new URLSearchParams(body),
-            headers: {
-                "Content-Type":
-                    "application/x-www-form-urlencoded;charset=UTF-8",
-            },
-        };
-
-        fetch(this.state.runtimeUrl + "/aap-capture-parameter", options)
+        fetch(this.state.runtimeUrl + "/aap-capture-parameter", GetTokenisedFetchOptions(body))
             .then((success) => {
                 this.setState({ captureField: captureField });
             })
@@ -226,28 +185,18 @@ class PaymentAgentView extends React.Component {
         console.log("attempting to process payment via Pay Connector");
 
         var body = {
-            Token: this.state.token,
             CallSid: this.props.task.attributes.call_sid,
             PaymentSid: this.state.paymentSid,
             Status: "complete",
             IdempotencyKey: ++this.idempotencyKey,
         };
 
-        var options = {
-            method: "POST",
-            body: new URLSearchParams(body),
-            headers: {
-                "Content-Type":
-                    "application/x-www-form-urlencoded;charset=UTF-8",
-            },
-        };
-
-        fetch(this.state.runtimeUrl + "/aap-complete-pay-session", options)
+        fetch(this.state.runtimeUrl + "/aap-complete-pay-session", GetTokenisedFetchOptions(body))
             .then((success) => {
-                console.log("Payment completed successfully");
+                console.log("Payment completion requested");
             })
             .catch((err) => {
-                console.log("Failed to complete payment", err);
+                console.log("Failed to request payment completion", err);
             });
     };
 
