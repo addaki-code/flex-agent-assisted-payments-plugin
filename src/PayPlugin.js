@@ -27,7 +27,7 @@ export default class PayPlugin extends FlexPlugin {
         //loadCSS("http://localhost:3000/styles.css");
 
         const options = { sortOrder: -1 };
-        flex.AgentDesktopView.Panel2.Content.replace(
+        flex.AgentDesktopView.Panel2.Content.add(
             <PaymentAgentView key="payment-component" runtimeUrl={config.RUNTIME_URL} />,
             options
         );
