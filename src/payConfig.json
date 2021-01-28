@@ -7,11 +7,15 @@
         },
         {
             "Symbol": "$",
-            "ISO": "aud"
+            "ISO": "usd"
         },
         {
             "Symbol": "€",
             "ISO": "eur"
+        },
+        {
+            "Symbol": "$",
+            "ISO": "aud"
         }
     ]
 }
