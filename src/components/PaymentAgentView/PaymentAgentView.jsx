@@ -161,6 +161,7 @@ class PaymentAgentView extends React.Component {
     requestCapture = (captureField) => {
         var body = {
             CallSid: this.props.task.attributes.call_sid,
+            ConfSid: this.props.task.attributes.conference.sid,
             PaymentSid: this.state.paymentSid,
             Capture: captureField,
             IdempotencyKey: ++this.idempotencyKey,
