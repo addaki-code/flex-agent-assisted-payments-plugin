@@ -8,7 +8,8 @@ class PaymentElement extends React.Component {
     getStyle = () => {
         if (
             this.props.paymentState[this.props.pascalCaseName] !== undefined &&
-            this.props.paymentState[this.props.pascalCaseName] !== ""
+            this.props.paymentState[this.props.pascalCaseName] !== "" &&
+            this.props.paymentState.Required.search(this.props.riverCaseName) < 0
         ) {
             return {
                 backgroundColor: "#3bb78f",
@@ -37,6 +38,7 @@ class PaymentElement extends React.Component {
                 <input
                     ref={this.paymentAmountRef}
                     value={this.props.paymentState[this.props.pascalCaseName]}
+                    readOnly
                 />
 
                 <button

@@ -63,6 +63,13 @@ class PaymentInProgress extends React.Component {
                                     Error: {this.props.paymentState.ErrorType}
                                 </div>
                             )}
+
+                        {this.props.paymentState.Required !== "" && (
+                            <div style={{ color: "blue", fontWeight: "bold" }}>
+                                Required Data: {this.props.paymentState.Required}
+                            </div>
+                        )}
+                        
                         {this.props.paymentState.Required !== undefined && (
                             <button
                                 className="payment-form-button Twilio-Button Twilio-TaskCanvasHeader-EndButton"

@@ -1,5 +1,5 @@
 {
-    "RUNTIME_URL": "https://aap-backend-5108-dev.twil.io",
+    "RUNTIME_URL": "https://aap-backend-3072-dev.twil.io",
     "CURRENCY_CONFIG":[
         {
             "Symbol": "£",
@@ -12,6 +12,10 @@
         {
             "Symbol": "€",
             "ISO": "eur"
+        },
+        {
+            "Symbol": "$",
+            "ISO": "aud"
         }
     ]
 }
